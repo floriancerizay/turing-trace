@@ -7,9 +7,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test test/",
+    "test": "node --test \"test/**/*.test.js\"",
     "demo": "npx serve docs",
-    "test:e2e": "node --test test-e2e/",
+    "test:e2e": "node --test \"test-e2e/**/*.test.mjs\"",
     "example": "node examples/site/server.js",
     "build": "node scripts/build-widget.mjs",
     "format": "prettier --write .",
