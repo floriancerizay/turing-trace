@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Turing Trace – statistics</title>
+    <link rel="icon" href="logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="vendor/pico.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <nav class="container">
+        <ul>
+          <li>
+            <strong class="brand"
+              ><img src="logo.svg" alt="" width="30" height="30" />Turing Trace</strong
+            >
+          </li>
+        </ul>
+        <ul>
+          <li><a href="./" data-i18n="adm.back"></a></li>
+        </ul>
+        <ul>
+          <li>
+            <div role="group" class="lang" data-i18n-attr="aria-label:lang.label">
+              <button type="button" data-lang="en" lang="en">EN</button>
+              <button type="button" data-lang="fr" lang="fr" class="outline">FR</button>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <hgroup class="intro">
+        <h1 data-i18n="adm.title"></h1>
+        <p data-i18n="adm.desc"></p>
+      </hgroup>
+
+      <form id="loginForm" class="admin-login">
+        <label for="token" data-i18n="adm.token"></label>
+        <div role="group">
+          <input id="token" type="password" autocomplete="off" required />
+          <button type="submit" data-i18n="adm.load"></button>
+        </div>
+        <small id="error" class="admin-error" role="alert"></small>
+      </form>
+
+      <section id="results" hidden>
+        <p id="observeNote" class="admin-observe" role="status" hidden data-i18n="adm.observe"></p>
+        <p><small id="windowNote"></small></p>
+        <div class="grid admin-cards">
+          <article>
+            <header data-i18n="adm.total"></header>
+            <p class="admin-num" id="total">–</p>
+          </article>
+          <article>
+            <header data-i18n="adm.accepted"></header>
+            <p class="admin-num" id="accepted">–</p>
+          </article>
+          <article>
+            <header data-i18n="adm.rate"></header>
+            <p class="admin-num" id="rate">–</p>
+          </article>
+        </div>
+        <article>
+          <header data-i18n="adm.histogram"></header>
+          <div id="histogram" class="admin-bars"></div>
+        </article>
+        <div class="grid">
+          <article>
+            <header data-i18n="adm.rules"></header>
+            <div id="rules" class="admin-bars"></div>
+          </article>
+          <article>
+            <header data-i18n="adm.steps"></header>
+            <div id="steps" class="admin-bars"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="js/admin.js"></script>
+  </body>
+</html>

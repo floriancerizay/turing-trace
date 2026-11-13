@@ -1,0 +1,535 @@
+/* Pico CSS fournit la typographie, les formulaires, les boutons et le mode sombre.
+   Ce fichier ne contient que ce que Pico n'a pas : bandeau fixe, jauge, graphiques, panneau labo, honeypot. */
+:root {
+  --ok: var(--pico-ins-color);
+  --bad: var(--pico-del-color);
+  --warn: #b7791f;
+  --c-dwell: #3b6fd8;
+  --c-flight: #c27c0e;
+  --pico-font-size: 100%;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --warn: #e0a83a;
+    --c-dwell: #7aa2f7;
+    --c-flight: #e0a83a;
+  }
+}
+
+/* Bandeau fixe */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--pico-background-color);
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+.bar nav {
+  flex-wrap: wrap;
+}
+.bar nav ul {
+  margin-block: 0;
+}
+.bar nav li {
+  padding-block: 0.4rem;
+}
+.brand {
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.brand img {
+  display: block;
+}
+.bar-score strong {
+  font-size: 1.35rem;
+  font-variant-numeric: tabular-nums;
+}
+.bar-btns button,
+.lang button {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+}
+.lang {
+  margin: 0;
+}
+/* Petit écran : une rangée pour le titre, le score et la langue, une seconde défilante pour les simulations. */
+#barScore.human {
+  color: var(--ok);
+}
+#barScore.suspect {
+  color: var(--warn);
+}
+#barScore.bot {
+  color: var(--bad);
+}
+@media (max-width: 768px) {
+  .bar nav {
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
+  .bar nav > ul:first-child {
+    flex: 1;
+    min-width: 0;
+  }
+  .bar-btns {
+    order: 3;
+    flex: 1 0 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+  }
+  .bar-btns button {
+    white-space: nowrap;
+  }
+}
+@media (max-width: 576px) {
+  #barVerdict {
+    display: none;
+  }
+  .brand {
+    font-size: 1rem;
+  }
+}
+
+.intro {
+  margin-top: 1.25rem;
+}
+.intro mark {
+  font-size: 0.8rem;
+}
+
+/* Score */
+.hero {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+.hero-num {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.hero-num small {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--pico-muted-color);
+}
+.hero h2 {
+  margin-bottom: 0.5rem;
+}
+.hero progress {
+  margin-bottom: 0.75rem;
+}
+progress.human {
+  accent-color: var(--ok);
+}
+progress.suspect {
+  accent-color: var(--warn);
+}
+progress.bot {
+  accent-color: var(--bad);
+}
+progress.human::-webkit-progress-value {
+  background: var(--ok);
+}
+progress.suspect::-webkit-progress-value {
+  background: var(--warn);
+}
+progress.bot::-webkit-progress-value {
+  background: var(--bad);
+}
+progress.human::-moz-progress-bar {
+  background: var(--ok);
+}
+progress.suspect::-moz-progress-bar {
+  background: var(--warn);
+}
+progress.bot::-moz-progress-bar {
+  background: var(--bad);
+}
+.sim-note {
+  color: var(--warn);
+  font-size: 0.9rem;
+  margin: 0;
+}
+.sim-note:empty {
+  display: none;
+}
+@media (max-width: 576px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+.verdict {
+  font-size: 0.8em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.verdict.human {
+  color: var(--ok);
+}
+.verdict.suspect {
+  color: var(--warn);
+}
+.verdict.bot {
+  color: var(--bad);
+}
+
+/* Règles */
+.rules .grp {
+  margin: 1.25rem 0 0.25rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pico-muted-color);
+}
+.rules details {
+  margin: 0;
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  border-left: 3px solid transparent;
+}
+.rules details.hit {
+  border-left-color: var(--bad);
+  background: color-mix(in srgb, var(--bad) 7%, transparent);
+}
+.rules summary {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  margin: 0;
+}
+.rules summary::after {
+  display: none;
+}
+.rules .name {
+  flex: 1;
+}
+.rules .det {
+  color: var(--pico-muted-color);
+  font-size: 0.8rem;
+  margin-left: 0.35rem;
+}
+.rules .pts {
+  font-variant-numeric: tabular-nums;
+  min-width: 5em;
+  text-align: right;
+  color: var(--pico-muted-color);
+}
+.rules details.hit .pts {
+  color: var(--bad);
+  font-weight: 600;
+}
+.rules details p {
+  margin: 0.4rem 0 0.2rem;
+  font-size: 0.9rem;
+  color: var(--pico-muted-color);
+}
+
+/* Infos collectées */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem 1.5rem;
+}
+.tile h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--pico-muted-color);
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  padding-bottom: 0.3rem;
+}
+.tile dl {
+  margin: 0;
+  font-size: 0.88rem;
+  display: grid;
+  grid-template-columns: minmax(6rem, 45%) 1fr;
+  gap: 0.15rem 0.75rem;
+}
+.tile dt {
+  color: var(--pico-muted-color);
+  font-weight: 400;
+}
+.tile dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.tile img {
+  max-width: 100%;
+  margin-top: 0.3rem;
+  border-radius: var(--pico-border-radius);
+}
+.flag-bad {
+  color: var(--bad);
+  font-weight: 600;
+}
+article > footer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+article > footer button {
+  margin: 0;
+  width: auto;
+}
+
+/* Graphiques */
+canvas {
+  width: 100%;
+  height: auto;
+  background: var(--pico-code-background-color);
+  border-radius: var(--pico-border-radius);
+  margin-bottom: 0.4rem;
+}
+.swatch {
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-right: 0.3em;
+  vertical-align: baseline;
+}
+.swatch.dwell {
+  background: var(--c-dwell);
+}
+.swatch.flight {
+  background: var(--c-flight);
+}
+
+/* Formulaire et résultat */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.actions button {
+  width: auto;
+  margin: 0;
+}
+.hp {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0.5rem;
+}
+.steps li {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 0.75rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  font-size: 0.9rem;
+}
+.steps .st {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+.steps .ok .st {
+  color: var(--ok);
+}
+.steps .ko .st {
+  color: var(--bad);
+}
+.steps .na {
+  color: var(--pico-muted-color);
+}
+.final {
+  font-weight: 700;
+}
+.final.ok {
+  color: var(--ok);
+}
+.final.ko {
+  color: var(--bad);
+}
+
+pre#tokenJson {
+  max-height: 360px;
+  overflow: auto;
+  font-size: 0.75rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+}
+
+/* Panneau labo rétractable */
+.lab-panel {
+  position: fixed;
+  top: var(--bar-h, 56px);
+  right: 0;
+  bottom: 0;
+  width: min(380px, 100vw);
+  z-index: 20;
+  background: var(--pico-background-color);
+  border-left: 1px solid var(--pico-muted-border-color);
+  box-shadow: -6px 0 18px rgba(0, 0, 0, 0.12);
+  padding: 1rem 1.25rem;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  visibility: hidden;
+}
+.lab-panel.open {
+  transform: none;
+  visibility: visible;
+}
+.lab-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.lab-head h2 {
+  margin: 0;
+  flex: 1;
+  font-size: 1.2rem;
+  white-space: nowrap;
+}
+.lab-score {
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.close-btn {
+  width: auto;
+  margin: 0;
+  padding: 0.1rem 0.6rem;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+.lab-thr {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+.lab label {
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+.lab label > span {
+  display: flex;
+  justify-content: space-between;
+}
+.lab input[type='range'] {
+  margin-bottom: 0.6rem;
+}
+.lab-tab {
+  position: fixed;
+  right: 0;
+  top: 40%;
+  z-index: 19;
+  width: auto;
+  border-radius: var(--pico-border-radius) 0 0 var(--pico-border-radius);
+  padding: 0.8rem 0.45rem;
+  writing-mode: vertical-rl;
+  margin: 0;
+}
+.lab-tab[aria-expanded='true'] {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab-panel {
+    transition: none;
+  }
+}
+
+body > footer {
+  padding-block: 1rem 2rem;
+  color: var(--pico-muted-color);
+}
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Page d'administration */
+.admin-observe {
+  padding: 0.6rem 0.9rem;
+  border-left: 3px solid var(--warn);
+  background: color-mix(in srgb, var(--warn) 10%, transparent);
+}
+.admin-login {
+  max-width: 32rem;
+}
+.admin-error {
+  color: var(--bad);
+}
+.admin-error:empty {
+  display: none;
+}
+.admin-num {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.admin-cards {
+  margin-bottom: var(--pico-block-spacing-vertical, 1rem);
+}
+.admin-cards article {
+  margin-bottom: 0;
+}
+.admin-row {
+  display: grid;
+  grid-template-columns: minmax(7rem, 40%) 1fr 3rem;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.15rem 0;
+  font-size: 0.88rem;
+}
+.admin-label {
+  overflow-wrap: anywhere;
+}
+.admin-track {
+  display: block;
+  height: 0.7rem;
+  background: var(--pico-muted-border-color);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.admin-fill {
+  display: block;
+  height: 100%;
+  background: var(--pico-primary);
+  border-radius: 99px;
+}
+.admin-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Boutons du contenu de la page : plus compacts que le style par défaut de Pico (le bandeau a déjà les siens). */
+/* :is() donne au sélecteur la spécificité de l'argument le plus fort : il passe devant [type=submit] de Pico. */
+main :is(button, [type='submit'], [type='button']),
+.lab-panel :is(button, [type='button']):not(.close-btn) {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  width: auto;
+  margin-bottom: 0;
+}
+.actions {
+  gap: 0.4rem;
+}

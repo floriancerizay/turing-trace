@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Turing Trace – invisible CAPTCHA</title>
+    <meta
+      name="description"
+      content="Invisible CAPTCHA demo: fingerprinting, behavioral biometrics and an explained legitimacy score."
+    />
+    <link rel="icon" href="logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="vendor/pico.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Bandeau fixe : titre, score, simulations, langue -->
+    <header class="bar" id="bar">
+      <nav class="container">
+        <ul>
+          <li>
+            <strong class="brand"
+              ><img src="logo.svg" alt="" width="30" height="30" />Turing Trace</strong
+            >
+          </li>
+          <li class="bar-score">
+            <strong id="barScore">–</strong><small>/100</small>
+            <span id="barVerdict" class="verdict"></span>
+          </li>
+        </ul>
+        <ul class="bar-btns">
+          <li>
+            <button
+              type="button"
+              id="btnBot"
+              class="secondary outline"
+              data-i18n="btn.bot"
+              data-i18n-attr="title:btn.bot.title"
+            ></button>
+          </li>
+          <li>
+            <button
+              type="button"
+              id="btnAgent"
+              class="secondary outline"
+              data-i18n="btn.agent"
+              data-i18n-attr="title:btn.agent.title"
+            ></button>
+          </li>
+          <li>
+            <button
+              type="button"
+              id="btnHeadless"
+              class="secondary outline"
+              data-i18n="btn.headless"
+              data-i18n-attr="title:btn.headless.title"
+            ></button>
+          </li>
+          <li>
+            <button
+              type="button"
+              id="btnReset"
+              class="contrast outline"
+              data-i18n="btn.reset"
+              data-i18n-attr="title:btn.reset.title"
+            ></button>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <div role="group" class="lang" data-i18n-attr="aria-label:lang.label">
+              <button type="button" data-lang="en" lang="en">EN</button>
+              <button type="button" data-lang="fr" lang="fr" class="outline">FR</button>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <hgroup class="intro">
+        <p data-i18n-html="lead"></p>
+        <p><mark id="modeBadge">…</mark> <small id="modeNote"></small></p>
+      </hgroup>
+
+      <!-- Score -->
+      <article class="hero" aria-labelledby="h-score">
+        <div class="hero-num"><span id="gaugeVal">–</span><small>/100</small></div>
+        <div>
+          <h2 id="h-score">
+            <span data-i18n="hero.title"></span> <span id="verdict" class="verdict">…</span>
+          </h2>
+          <progress
+            id="gauge"
+            value="0"
+            max="100"
+            data-i18n-attr="aria-label:gauge.aria"
+          ></progress>
+          <p data-i18n-html="hero.desc"></p>
+          <p id="simNote" class="sim-note"></p>
+        </div>
+      </article>
+
+      <!-- Pourquoi ce score -->
+      <article aria-labelledby="h-why">
+        <header>
+          <h2 id="h-why" data-i18n="why.title"></h2>
+          <p data-i18n="why.desc"></p>
+        </header>
+        <div id="rules" class="rules"></div>
+      </article>
+
+      <!-- Infos collectées -->
+      <article aria-labelledby="h-info">
+        <header><h2 id="h-info" data-i18n="info.title"></h2></header>
+        <div id="info" class="tiles"></div>
+        <footer>
+          <button type="button" id="btnIp" class="secondary outline" data-i18n="ip.btn"></button>
+          <small id="ipOut" data-i18n="ip.note"></small>
+        </footer>
+      </article>
+
+      <!-- Comportement -->
+      <article aria-labelledby="h-beh">
+        <header><h2 id="h-beh" data-i18n="beh.title"></h2></header>
+        <div class="grid">
+          <div>
+            <h3 data-i18n="mouse.title"></h3>
+            <canvas
+              id="mouseCv"
+              width="520"
+              height="260"
+              data-i18n-attr="aria-label:mouse.aria"
+            ></canvas>
+            <small><span data-i18n="mouse.legend"></span> <span id="mouseStats"></span></small>
+          </div>
+          <div>
+            <h3 data-i18n="typing.title"></h3>
+            <label for="typing" data-i18n="typing.label"></label>
+            <textarea
+              id="typing"
+              rows="3"
+              autocomplete="off"
+              data-i18n-attr="placeholder:typing.placeholder"
+            ></textarea>
+            <canvas
+              id="keyCv"
+              width="520"
+              height="150"
+              data-i18n-attr="aria-label:keys.aria"
+            ></canvas>
+            <small
+              ><i class="swatch dwell"></i><span data-i18n="keys.legend"></span> ·
+              <i class="swatch flight"></i><span data-i18n="keys.legend2"></span>.
+              <span id="keyStats"></span
+            ></small>
+          </div>
+        </div>
+      </article>
+
+      <!-- Formulaire -->
+      <article aria-labelledby="h-form">
+        <header><h2 id="h-form" data-i18n="form.title"></h2></header>
+        <form id="form" autocomplete="off">
+          <label for="name" data-i18n="form.name"></label>
+          <input id="name" name="name" type="text" data-i18n-attr="placeholder:form.name.ph" />
+          <small data-i18n="form.hint"></small>
+          <!-- Honeypot : invisible pour un humain, rempli par les bots qui remplissent tous les champs -->
+          <div class="hp" aria-hidden="true">
+            <label for="website" data-i18n="form.hp"></label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" id="cf_token" name="cf_token" />
+          <div class="actions">
+            <button type="submit" id="btnSubmit" data-i18n="btn.submit"></button>
+            <button
+              type="button"
+              id="btnReplay"
+              class="secondary outline"
+              disabled
+              data-i18n="btn.replay"
+            ></button>
+            <button
+              type="button"
+              id="btnForge"
+              class="secondary outline"
+              data-i18n="btn.forge"
+            ></button>
+            <button
+              type="button"
+              id="btnHoney"
+              class="secondary outline"
+              data-i18n="btn.honey"
+            ></button>
+          </div>
+        </form>
+        <div id="result" aria-live="polite"></div>
+      </article>
+
+      <!-- Jeton -->
+      <article aria-labelledby="h-tok">
+        <header>
+          <h2 id="h-tok" data-i18n="token.title"></h2>
+          <p><span data-i18n="token.desc"></span> <span id="powStatus"></span></p>
+        </header>
+        <div class="grid">
+          <pre id="tokenJson" tabindex="0"></pre>
+          <div>
+            <ul data-i18n-html="token.items"></ul>
+            <small id="tokenSizeLine"></small>
+          </div>
+        </div>
+      </article>
+
+      <!-- Pédagogie -->
+      <article aria-labelledby="h-how">
+        <header><h2 id="h-how" data-i18n="how.title"></h2></header>
+        <div data-i18n-html="how.html"></div>
+      </article>
+    </main>
+
+    <footer class="container"><small data-i18n="footer"></small></footer>
+
+    <!-- Mode labo : panneau latéral rétractable -->
+    <button
+      type="button"
+      id="labToggle"
+      class="lab-tab"
+      aria-expanded="false"
+      aria-controls="labPanel"
+      data-i18n="lab.tab"
+    ></button>
+    <aside id="labPanel" class="lab-panel" aria-labelledby="h-lab" hidden>
+      <div class="lab-head">
+        <h2 id="h-lab" data-i18n="lab.title"></h2>
+        <span class="lab-score" aria-live="polite"
+          ><span data-i18n="lab.score"></span> <strong id="labScore">–</strong>
+          <span id="labVerdict" class="verdict"></span
+        ></span>
+        <button
+          type="button"
+          id="labClose"
+          class="secondary outline close-btn"
+          data-i18n-attr="aria-label:lab.close"
+        >
+          ×
+        </button>
+      </div>
+      <small data-i18n="lab.desc"></small>
+      <label for="thr" class="lab-thr"
+        ><span data-i18n="lab.thr"></span> <strong id="thrLabel">60</strong>
+        <input id="thr" type="range" min="0" max="100" value="60"
+      /></label>
+      <div id="lab" class="lab"></div>
+      <button
+        type="button"
+        id="btnLabReset"
+        class="secondary outline"
+        data-i18n="lab.reset"
+      ></button>
+    </aside>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

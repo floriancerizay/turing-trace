@@ -1,0 +1,33 @@
+{
+  "name": "turing-trace",
+  "version": "1.0.0",
+  "description": "CAPTCHA invisible (score de légitimité, fingerprinting, biométrie comportementale) avec démo GitHub Pages",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/",
+    "demo": "npx serve docs",
+    "test:e2e": "node --test test-e2e/",
+    "example": "node examples/site/server.js",
+    "build": "node scripts/build-widget.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "playwright-core": "^1.65.0",
+    "prettier": "^3.10.1"
+  },
+  "exports": {
+    "./middleware": "./lib/middleware.js",
+    "./server": "./server.js"
+  }
+}

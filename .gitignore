@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.vscode/
+__pycache__/
+
+# base SQLite du stockage (STORE=sqlite:./data/…) : hachages d'IP et d'empreintes, ne jamais versionner
+data/
+*.db
+*.db-wal
+*.db-shm

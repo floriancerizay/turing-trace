@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t">
+  <title id="t">Turing Trace</title>
+  <style>
+    .metal { fill: #1f3a5f; }
+    .visor { fill: #eef4f8; }
+    .pupil { fill: #1f3a5f; }
+    .trace { fill: none; stroke: #e2603f; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .spark { fill: #e2603f; }
+    @media (prefers-color-scheme: dark) {
+      .metal { fill: #9cc0e6; }
+      .visor { fill: #12233a; }
+      .pupil { fill: #9cc0e6; }
+      .trace { stroke: #ff8a66; }
+      .spark { fill: #ff8a66; }
+    }
+  </style>
+  <!-- oreilles -->
+  <rect class="metal" x="3" y="23" width="7" height="15" rx="3.5"/>
+  <rect class="metal" x="54" y="23" width="7" height="15" rx="3.5"/>
+  <!-- tête -->
+  <rect class="metal" x="9" y="10" width="46" height="44" rx="13"/>
+  <!-- visière et yeux -->
+  <rect class="visor" x="14" y="17" width="36" height="17" rx="8.5"/>
+  <circle class="pupil" cx="24" cy="25.5" r="4"/>
+  <circle class="pupil" cx="40" cy="25.5" r="4"/>
+  <!-- bouche : une trajectoire de souris, irrégulière comme celle d'un humain -->
+  <rect class="visor" x="14" y="38" width="36" height="10" rx="5"/>
+  <path class="trace" d="M18.5 44.5 C21 40.5 23 46.5 26 43 S30.5 40 32.5 43.5 S37.5 46 40 42 S44 40.5 45.5 42.5"/>
+  <circle class="spark" cx="45.5" cy="42.5" r="2.3"/>
+</svg>
